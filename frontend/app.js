@@ -348,7 +348,7 @@ function renderAlphaChart(result) {
   svg.appendChild(gridGroup);
 
   for (const [name, rows] of Object.entries(result.sweepResults)) {
-    for (const [key, dash] of [["bloomStartIndex", null], ["fullBloomIndex", "6 4"]]) {
+    for (const [key, dash] of [["fullBloomIndex", null], ["bloomStartIndex", "6 4"]]) {
       let d = "";
       let started = false;
       for (const r of rows) {
@@ -396,7 +396,7 @@ function renderAlphaChart(result) {
     swatch.className = "legend-swatch";
     swatch.style.background = CULTIVAR_COLORS[name] || "#333";
     const text = document.createElement("span");
-    text.textContent = `${name}（実線=開花始、破線=満開）`;
+    text.textContent = `${name}（実線=満開、破線=開花始）`;
     li.append(swatch, text);
     legend.appendChild(li);
   }

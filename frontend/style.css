@@ -170,12 +170,3 @@ h3 {
   border-radius: 3px;
   display: inline-block;
 }
-
-footer {
-  color: var(--muted);
-  font-size: 0.8rem;
-  text-align: center;
-  margin-top: 32px;
-}
-
-footer a { color: var(--muted); }
