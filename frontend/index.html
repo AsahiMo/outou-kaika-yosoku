@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>おうとう開花予測</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1>おうとう開花予測</h1>
+    <p class="lead">アメダスの毎時気温データから、佐藤錦・紅秀峰の開花始・満開を予測します。</p>
+  </header>
+
+  <section class="card" id="form-section">
+    <div class="field">
+      <label for="station-select">観測地点</label>
+      <select id="station-select"></select>
+    </div>
+
+    <div class="field">
+      <label for="calc-year">開花予測年</label>
+      <input type="number" id="calc-year" min="2000" max="2100" step="1">
+    </div>
+
+    <div class="field">
+      <label for="last-actual-date">最終実測利用日（任意）</label>
+      <input type="date" id="last-actual-date">
+      <p class="hint">指定しない場合、取得可能な最新日（前日）まで実測値を使います。指定すると、それ以降は平年値で補完します。実測データがない期間（未来分）は、平年値を基準に−5℃〜+5℃の幅で計算し、結果を幅（レンジ）として示します。</p>
+    </div>
+
+    <button id="predict-btn" type="button">予測する</button>
+    <p id="predict-status" class="status" role="status"></p>
+  </section>
+
+  <section class="card hidden" id="result-section">
+    <h2>予測結果</h2>
+    <p id="result-meta" class="hint"></p>
+    <table>
+      <thead>
+        <tr><th>品種</th><th>開花始</th><th>満開</th></tr>
+      </thead>
+      <tbody id="result-tbody"></tbody>
+    </table>
+
+    <h3>平年値との差（α）と開花日の関係</h3>
+    <div id="alpha-chart-wrap">
+      <div id="alpha-chart"></div>
+      <ul id="alpha-chart-legend" class="legend"></ul>
+    </div>
+  </section>
+
+  <footer>
+    <p>気温データ: 気象庁アメダス（<a href="https://www.data.jma.go.jp/risk/obsdl/" target="_blank" rel="noopener">過去の気象データ・ダウンロード</a>、非公式インターフェース経由）</p>
+  </footer>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>

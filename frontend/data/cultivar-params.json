@@ -1,0 +1,7 @@
+{
+  "note": "Tu/Td/m=チルユニット式のパラメータ、cur/d=DTS成長式のパラメータ、gdhStart/gdhFull=開花始・満開と判定する積算成長量のしきい値。",
+  "cultivars": {
+    "佐藤錦": { "tu": 14, "td": -7, "m": -0.1, "cur": 1400, "d": 2.2, "gdhStart": 8000, "gdhFull": 9000 },
+    "紅秀峰": { "tu": 14, "td": -6, "m": -0.1, "cur": 1200, "d": 2.3, "gdhStart": 8250, "gdhFull": 9000 }
+  }
+}

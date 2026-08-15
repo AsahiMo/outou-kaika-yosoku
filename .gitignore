@@ -1,0 +1,25 @@
+# 依存パッケージ（npm installで復元可能）
+node_modules/
+
+# wranglerのローカルキャッシュ・一時ファイル
+.wrangler/
+
+# Claude Codeのローカル権限設定（マシン固有のパス・作業履歴を含むため非公開）
+.claude/settings.local.json
+
+# アメダス生データのキャッシュ（大容量・再取得可能なため追跡しない。
+# node scripts/build-all.mjs で再生成できる）
+data/raw/
+
+# アメダスデータの取得方法の詳細ガイド、開発時の検討過程・内部修正メモ
+# （公開版の情報はREADME.mdに集約。他プロジェクト・他チャットで再利用する
+# ためのローカル参照メモであり、公開情報としては残さない）
+docs/
+DESIGN.md
+
+# 内部で使っていたExcel/VBAツール（現行版・修正前バックアップとも非公開）
+*.xlsm
+
+# OS/エディタ由来のゴミファイル
+.DS_Store
+Thumbs.db

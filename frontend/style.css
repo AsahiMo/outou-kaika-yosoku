@@ -1,0 +1,181 @@
+:root {
+  --bg: #faf7f2;
+  --card-bg: #ffffff;
+  --text: #2b2320;
+  --muted: #6b6058;
+  --border: #e6ddd2;
+  --accent: #b5495b;
+  --accent-dark: #8f3648;
+  --series-1: #c0392b; /* 佐藤錦 */
+  --series-2: #2e6ca4; /* 紅秀峰 */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Hiragino Sans", "Yu Gothic", "Segoe UI", sans-serif;
+  line-height: 1.6;
+}
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+}
+
+header h1 {
+  margin: 0 0 4px;
+  font-size: 1.6rem;
+}
+
+.lead {
+  color: var(--muted);
+  margin: 0 0 24px;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.hidden { display: none; }
+
+.field {
+  margin-bottom: 18px;
+}
+
+.field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.field select,
+.field input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+  color: var(--text);
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 6px 0 0;
+}
+
+button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover { background: var(--accent-dark); }
+button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.status {
+  color: var(--muted);
+  min-height: 1.2em;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0 24px;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.grid-line {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.axis-label {
+  font-size: 11px;
+  fill: var(--muted);
+}
+
+.axis-title {
+  font-size: 12px;
+  fill: var(--muted);
+}
+
+.threshold-line {
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+  opacity: 0.55;
+}
+
+.alpha-curve {
+  stroke-width: 2.5;
+  fill: none;
+}
+
+h3 {
+  font-size: 1rem;
+  margin: 24px 0 4px;
+}
+
+#alpha-chart-wrap {
+  margin-top: 8px;
+}
+
+#alpha-chart svg {
+  width: 100%;
+  height: auto;
+}
+
+.legend {
+  list-style: none;
+  display: flex;
+  gap: 16px;
+  padding: 0;
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+footer {
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-align: center;
+  margin-top: 32px;
+}
+
+footer a { color: var(--muted); }
