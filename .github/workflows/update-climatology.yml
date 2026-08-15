@@ -1,0 +1,43 @@
+name: Update climatology data
+
+on:
+  schedule:
+    # 毎年9/5 00:00 UTC(=JST 9:00)。直近シーズン(前年9/1〜当年8/31)が
+    # 8/31に完了した後、余裕を持って実行する。
+    - cron: "0 0 5 9 *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-climatology
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Rebuild climatology from obsdl (過去10年分)
+        run: node scripts/build-all.mjs --years 10
+
+      - name: Sync climatology into frontend/data
+        run: cp data/climatology/*.json frontend/data/climatology/
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/climatology frontend/data/climatology
+          if git diff --cached --quiet; then
+            echo "No changes to climatology data."
+          else
+            git commit -m "気候値(平年値)を更新 ($(date -u +%Y-%m-%d))"
+            git push
+          fi
