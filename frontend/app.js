@@ -76,6 +76,10 @@ function dateInputToYmd(value) {
   return value.replaceAll("-", "");
 }
 
+function ymdToDateInput(ymd) {
+  return `${ymd.slice(0, 4)}-${ymd.slice(4, 6)}-${ymd.slice(6, 8)}`;
+}
+
 function alphaSweep() {
   const values = [];
   for (let a = ALPHA_MIN; a <= ALPHA_MAX + 1e-9; a += ALPHA_STEP) {
@@ -236,6 +240,27 @@ function defaultCalcYear() {
   const y = jst.getUTCFullYear();
   const m = jst.getUTCMonth() + 1;
   return m >= 9 ? y + 1 : y;
+}
+
+// 最終実測利用日は、開花予測年の1/1〜(9/1からの通し日数で273日目、5月末頃)の
+// 範囲に限定する。前年9〜12月は開花予測に影響しないため考慮不要。
+function syncLastActualDateBounds() {
+  const input = el("last-actual-date");
+  const calcYear = Number(el("calc-year").value);
+  if (!calcYear) {
+    input.removeAttribute("min");
+    input.removeAttribute("max");
+    return;
+  }
+  const seasonStartYear = calcYear - 1;
+  const day273Ymd = addDaysYmd(`${seasonStartYear}0901`, SEASON_DAYS - 1);
+  const minYmd = `${calcYear}0101`;
+
+  input.min = ymdToDateInput(minYmd);
+  input.max = ymdToDateInput(day273Ymd);
+  if (input.value && (input.value < input.min || input.value > input.max)) {
+    input.value = "";
+  }
 }
 
 function renderResults(result) {
@@ -427,6 +452,9 @@ async function handlePredict() {
 async function init() {
   await populateStationSelect();
   el("calc-year").value = defaultCalcYear();
+  syncLastActualDateBounds();
+  el("calc-year").addEventListener("change", syncLastActualDateBounds);
+  el("calc-year").addEventListener("input", syncLastActualDateBounds);
   el("predict-btn").addEventListener("click", handlePredict);
 }
 
