@@ -1,13 +1,13 @@
 :root {
-  --bg: #faf7f2;
-  --card-bg: #ffffff;
-  --text: #2b2320;
-  --muted: #6b6058;
-  --border: #e6ddd2;
-  --accent: #b5495b;
-  --accent-dark: #8f3648;
-  --series-1: #c0392b; /* 佐藤錦 */
-  --series-2: #2e6ca4; /* 紅秀峰 */
+  --bg: #fff3f6;
+  --card-bg: #fffbfc;
+  --text: #3d2933;
+  --muted: #8c6b75;
+  --border: #f6d9e2;
+  --accent: #d5738f;
+  --accent-dark: #b8546f;
+  --series-1: #c2185b; /* 佐藤錦 */
+  --series-2: #4a7c59; /* 紅秀峰 */
 }
 
 * { box-sizing: border-box; }
