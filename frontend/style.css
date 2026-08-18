@@ -109,6 +109,21 @@ th {
   font-size: 0.9rem;
 }
 
+.date-cell {
+  text-align: center;
+}
+
+.date-primary {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.date-range {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
+
 .grid-line {
   stroke: var(--border);
   stroke-width: 1;

@@ -200,10 +200,25 @@ function formatDate(date) {
   return new Intl.DateTimeFormat("ja-JP", { month: "long", day: "numeric" }).format(date);
 }
 
-function formatDateRange(seasonStartYear, minIdx, maxIdx) {
-  if (minIdx === null || maxIdx === null) return "予測期間内に到達せず";
-  if (minIdx === maxIdx) return formatDate(indexToDate(seasonStartYear, minIdx));
-  return `${formatDate(indexToDate(seasonStartYear, minIdx))} 〜 ${formatDate(indexToDate(seasonStartYear, maxIdx))}`;
+// 表の各セル用に、平年値どおり(alpha=0)の日付を主表示、
+// -5℃〜+5℃の幅を(◯月◯日〜◯月◯日)の形で補助表示として返す。
+function buildDateCell(seasonStartYear, rows, key) {
+  const zero = rows.find((r) => r.alpha === 0);
+  const zeroIdx = zero ? zero[key] : null;
+  const { minIdx, maxIdx } = indexRange(rows, key);
+
+  if (zeroIdx === null && minIdx === null) {
+    return { primary: "予測期間内に到達せず", range: null };
+  }
+
+  const primary = zeroIdx !== null ? formatDate(indexToDate(seasonStartYear, zeroIdx)) : "予測期間内に到達せず";
+
+  let range = null;
+  if (minIdx !== null && minIdx !== maxIdx) {
+    range = `（${formatDate(indexToDate(seasonStartYear, minIdx))}〜${formatDate(indexToDate(seasonStartYear, maxIdx))}）`;
+  }
+
+  return { primary, range };
 }
 
 function indexRange(sweepResults, key) {
@@ -215,6 +230,25 @@ function indexRange(sweepResults, key) {
 // ---------------------------------------------------------------------------
 // UI
 // ---------------------------------------------------------------------------
+
+function renderDateCell({ primary, range }) {
+  const td = document.createElement("td");
+  td.className = "date-cell";
+
+  const primaryEl = document.createElement("div");
+  primaryEl.className = "date-primary";
+  primaryEl.textContent = primary;
+  td.appendChild(primaryEl);
+
+  if (range) {
+    const rangeEl = document.createElement("div");
+    rangeEl.className = "date-range";
+    rangeEl.textContent = range;
+    td.appendChild(rangeEl);
+  }
+
+  return td;
+}
 
 const CULTIVAR_COLORS = {
   佐藤錦: "var(--series-1, #d9534f)",
@@ -269,17 +303,14 @@ function renderResults(result) {
   const tbody = el("result-tbody");
   tbody.innerHTML = "";
   for (const [name, rows] of Object.entries(result.sweepResults)) {
-    const start = indexRange(rows, "bloomStartIndex");
-    const full = indexRange(rows, "fullBloomIndex");
-
     const tr = document.createElement("tr");
     const tdName = document.createElement("td");
     tdName.textContent = name;
-    const tdStart = document.createElement("td");
-    tdStart.textContent = formatDateRange(result.seasonStartYear, start.minIdx, start.maxIdx);
-    const tdFull = document.createElement("td");
-    tdFull.textContent = formatDateRange(result.seasonStartYear, full.minIdx, full.maxIdx);
-    tr.append(tdName, tdStart, tdFull);
+
+    const startCell = buildDateCell(result.seasonStartYear, rows, "bloomStartIndex");
+    const fullCell = buildDateCell(result.seasonStartYear, rows, "fullBloomIndex");
+
+    tr.append(tdName, renderDateCell(startCell), renderDateCell(fullCell));
     tbody.appendChild(tr);
   }
 
