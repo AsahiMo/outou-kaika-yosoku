@@ -276,6 +276,20 @@ function defaultCalcYear() {
   return m >= 9 ? y + 1 : y;
 }
 
+// 開花予測年は直近10年程度(既定年を含めて新しい順)から選択する形にする
+function populateCalcYearSelect() {
+  const select = el("calc-year");
+  const anchor = defaultCalcYear();
+  select.innerHTML = "";
+  for (let y = anchor; y > anchor - 10; y--) {
+    const opt = document.createElement("option");
+    opt.value = y;
+    opt.textContent = `${y}年`;
+    select.appendChild(opt);
+  }
+  select.value = anchor;
+}
+
 // 最終実測利用日は、開花予測年の1/1〜(9/1からの通し日数で273日目、5月末頃)の
 // 範囲に限定する。前年9〜12月は開花予測に影響しないため考慮不要。
 function syncLastActualDateBounds() {
@@ -482,10 +496,9 @@ async function handlePredict() {
 
 async function init() {
   await populateStationSelect();
-  el("calc-year").value = defaultCalcYear();
+  populateCalcYearSelect();
   syncLastActualDateBounds();
   el("calc-year").addEventListener("change", syncLastActualDateBounds);
-  el("calc-year").addEventListener("input", syncLastActualDateBounds);
   el("predict-btn").addEventListener("click", handlePredict);
 }
 
